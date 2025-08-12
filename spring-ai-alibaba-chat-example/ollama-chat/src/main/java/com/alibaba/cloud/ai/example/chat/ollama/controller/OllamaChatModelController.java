@@ -52,8 +52,12 @@ public class OllamaChatModelController {
      */
     @GetMapping("/simple/chat")
     public String simpleChat() {
-
-        return ollamaChatModel.call(new Prompt(DEFAULT_PROMPT)).getResult().getOutput().getText();
+        OllamaOptions customOptions = OllamaOptions.builder()
+                .topP(0.7)
+                .model("deepseek-r1:1.5b")
+                .temperature(0.8)
+                .build();
+        return ollamaChatModel.call(new Prompt(DEFAULT_PROMPT,customOptions)).getResult().getOutput().getText();
     }
 
     /**
@@ -66,8 +70,13 @@ public class OllamaChatModelController {
 
         // 避免返回乱码
         response.setCharacterEncoding("UTF-8");
+        OllamaOptions customOptions = OllamaOptions.builder()
+                .topP(0.7)
+                .model("deepseek-r1:1.5b")
+                .temperature(0.8)
+                .build();
 
-        Flux<ChatResponse> stream = ollamaChatModel.stream(new Prompt(DEFAULT_PROMPT));
+        Flux<ChatResponse> stream = ollamaChatModel.stream(new Prompt(DEFAULT_PROMPT,customOptions));
         return stream.map(resp -> resp.getResult().getOutput().getText());
     }
 
@@ -80,7 +89,7 @@ public class OllamaChatModelController {
 
         OllamaOptions customOptions = OllamaOptions.builder()
                 .topP(0.7)
-                .model("llama3")
+                .model("deepseek-r1:1.5b")
                 .temperature(0.8)
                 .build();
 

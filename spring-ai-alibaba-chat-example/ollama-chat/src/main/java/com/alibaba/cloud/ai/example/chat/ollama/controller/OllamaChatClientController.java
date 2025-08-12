@@ -54,7 +54,7 @@ public class OllamaChatClientController {
 				.defaultOptions(
 						OllamaOptions.builder()
 								.topP(0.7)
-								.model("llama3")
+								.model("deepseek-r1:1.5b")
 								.build()
 				)
 				.build();
