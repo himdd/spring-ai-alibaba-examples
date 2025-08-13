@@ -26,6 +26,7 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -65,19 +66,19 @@ public class OllamaChatClientController {
 	 * ChatClient 简单调用
 	 */
 	@GetMapping("/simple/chat")
-	public String simpleChat() {
+	public String simpleChat(@RequestParam(value = "query", defaultValue = "你好，很高兴认识你，能简单介绍一下自己吗？")String query) {
 
-		return ollamaiChatClient.prompt(DEFAULT_PROMPT).call().content();
+		return ollamaiChatClient.prompt(query).call().content();
 	}
 
 	/**
 	 * ChatClient 流式调用
 	 */
 	@GetMapping("/stream/chat")
-	public Flux<String> streamChat(HttpServletResponse response) {
+	public Flux<String> streamChat(@RequestParam(value = "query", defaultValue = "你好，很高兴认识你，能简单介绍一下自己吗？")String query, HttpServletResponse response) {
 
 		response.setCharacterEncoding("UTF-8");
-		return ollamaiChatClient.prompt(DEFAULT_PROMPT).stream().content();
+		return ollamaiChatClient.prompt(query).stream().content();
 	}
 
 }
